@@ -17,6 +17,7 @@ class HelloWorld {
     public static void main(String[] args) {
         int l=100;
         int r=200;
+        r = (int)Math.sqrt(r);
         boolean isPrime[] = seive(r);
         // System.out.println(Arrays.toString(isPrime));
         boolean segSieve[] = new boolean[r-l+1];
