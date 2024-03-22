@@ -35,7 +35,7 @@ class Solution {
         // }
         // return checkPalindrome(list);
         
-        //Approach 2
+        //Approach 2 TC-O(N) SC-O(1)
 
         ListNode slow=head;
         ListNode fast=head.next;
