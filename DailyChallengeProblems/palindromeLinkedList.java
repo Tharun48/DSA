@@ -14,12 +14,46 @@ class Solution {
         }
         return true;
     }
-    public boolean isPalindrome(ListNode head) {
-        List<Integer> list = new ArrayList<>();
-        while(head!=null) {
-            list.add(head.val);
-            head=head.next;
+    public ListNode reverseList(ListNode head) {
+        ListNode cur = head;
+        ListNode prev=null;
+        ListNode next=null;
+        while(cur!=null) {
+            next=cur.next;
+            cur.next=prev;
+            prev=cur;
+            cur=next;
         }
-        return checkPalindrome(list);
+        return prev;
+    }
+    public boolean isPalindrome(ListNode head) {
+        //Approach 1
+        // List<Integer> list = new ArrayList<>();
+        // while(head!=null) {
+        //     list.add(head.val);
+        //     head=head.next;
+        // }
+        // return checkPalindrome(list);
+        
+        //Approach 2
+
+        ListNode slow=head;
+        ListNode fast=head.next;
+
+        while(fast!=null) {
+            slow=slow.next;
+            fast=fast.next;
+            if(fast!=null)
+                fast=fast.next;
+        }
+
+        ListNode head1 = reverseList(slow);
+
+        while(head!=null && head1!=null) {
+            if(head.val!=head1.val) return false;
+            head=head.next;
+            head1=head1.next;
+        }
+        return true;
     }
 }
