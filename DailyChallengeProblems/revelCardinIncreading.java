@@ -40,6 +40,35 @@ class Solution {
         return ans;
     }
 }
+
+/* Approah 2 
+class Solution {
+    public int[] deckRevealedIncreasing(int[] deck) {
+        int n = deck.length;
+        int ans[] = new int[n];
+        Deque<Integer> q = new LinkedList<>();
+        for(int i=0;i<n;i++) {
+            q.offer(i);
+        }
+        Arrays.sort(deck);
+        
+        for(int i=0;i<n;i++) {
+            ans[q.pollFirst()]=deck[i];
+            if(q.size()>0) {
+                int j = q.pollFirst();
+                q.offerLast(j);
+            }
+        }
+        return ans;
+    }
+}
+ * 
+ * 
+ * 
+ * 
+ * 
+*/
+
 //leetcode daily challenge 10-04-2024..
 //problem 950
 //solve in reverse order...
