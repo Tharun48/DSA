@@ -54,3 +54,7 @@ class Solution {
         return minimumHeightNodes;
     }
 }
+//leetcode 310
+//depth will be minimum if node lies centre..
+//need to find centre of gravity..
+//by removing the leaf nodes 
