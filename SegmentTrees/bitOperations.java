@@ -1,86 +1,86 @@
-public class SegmentTrees {
-    int seg[];
-    SegmentTrees(int n) {
-        seg = new int[4*n];
-    }
-    void build(int index,int low,int high,int nums[],boolean xorFlag) {
-
-        if(low==high) {
-            seg[index]=nums[low];
-            return ;
-        }
-        int mid = (low+high)/2;
-        build(index*2+1,low,mid,nums,!xorFlag);
-        build(index*2+2,mid+1,high,nums,!xorFlag);
-        if(xorFlag) {
-            seg[index] = seg[index*2+1]^seg[index*2+2];
-        }
-        else{
-            seg[index] = seg[index*2+1]|seg[index*2+2];
-        }
-    }
-    void update(int index,int low,int high,int i,int val,boolean xorFlag) {
-
-        if(low==high) {
-            seg[index]=val;
-            return ;
-        }
-
-        int mid = (low+high)/2;
-
-        if(i<=mid) {
-            update(index*2+1,low,mid,i,val,!xorFlag);
-        }
-        else {
-            update(index*2+2,mid+1,high,i,val,!xorFlag);
-        }
-
-        if(xorFlag) {
-            seg[index] = seg[index*2+1] ^ seg[index*2+2];
-        }
-        else{
-            seg[index] = seg[index*2+1] | seg[index*2+2];
-        }
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Solution {
+    public static void main(String[] args) throws IOException{
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int q = sc.nextInt();
-        int el = (int)Math.pow(2,n);
-
-        int nums[] = new int[el];
-        for(int i=0;i<el;i++) {
+        int len = 1<<n;
+        int m = sc.nextInt();
+        int nums[] = new int[len];
+        for(int i=0;i<len;i++) {
             nums[i]=sc.nextInt();
         }
-        SegmentTrees s = new SegmentTrees(el);
-        if(n%2==0) {
-            s.build(0,0,el-1,nums,true);
+        Segment s = new Segment(len);
+        // System.out.println(Arrays.toString(nums));
+        if(n%2==0) { 
+            s.build(0,0,len-1,nums,false);
         }
-        else {
-            s.build(0,0,el-1,nums,false);
+        else{
+            s.build(0,0,len-1,nums,true);
         }
-
-
-        System.out.println(s.seg[0]);
-
-        while(q-->0) {
+        // System.out.println("ans = " + s.seg[0]);
+        // System.out.println("seg = " + Arrays.toString(s.seg));
+        for(int i=0;i<m;i++) {
             int ind = sc.nextInt();
             ind--;
             int val = sc.nextInt();
-            if(n%2==0) {
-                s.update(0,0,el-1,ind,val,true);
+            if(n%2==0){
+                // System.out.println("yes");
+                s.update(0,0,len-1,false,ind,val);
+                System.out.println(s.seg[0]);
             }
-            else {
-                s.update(0,0,el-1,ind,val,false);
+            else{
+                s.update(0,0,len-1,true,ind,val);
+                System.out.println(s.seg[0]);
             }
-            System.out.println(s.seg[0]);
+            
         }
     }
-
+}
+class Segment {
+    int seg[][];
+    Segment(int n) {
+        seg = new int[n*4][3];
     }
-//339D codeforces
+    void build(int ind,int low,int high,int nums[],boolean flag) {
+        if(low==high) {
+            seg[ind]=nums[low];
+            return ;
+        }
+        int mid = (low+high)/2;
+        build(ind*2+1,low,mid,nums,!flag);
+        build(ind*2+2,mid+1,high,nums,!flag);
+        if(flag) {
+            seg[ind]=seg[ind*2+1]|seg[ind*2+2];
+        }
+        else{
+            seg[ind]=seg[ind*2+1]^seg[ind*2+2];
+        }
+        
+    }
+    void update(int ind,int low,int high,boolean f,int i,int val) {
+        
+        if(low==high) {
+            seg[ind]=val;
+            return ;
+        }
+        
+        int mid = (low+high)/2;
+
+        if(i<=mid) {
+            update(ind*2+1,low,mid,!f,i,val);
+        }
+        else{
+            update(ind*2+2,mid+1,high,!f,i,val);
+        }
+
+        if(f) {
+            seg[ind]=seg[ind*2+1]|seg[ind*2+2];
+        }
+        else{
+            seg[ind]=seg[ind*2+1]^seg[ind*2+2];
+        }
+    }
+}
