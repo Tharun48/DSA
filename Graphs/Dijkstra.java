@@ -20,31 +20,35 @@ class Solution
     {
         long dist[] = new long[V];
         PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> Long.compare(a.distance, b.distance));
-        
         pq.offer(new Pair(0,S));
         Arrays.fill(dist,Long.MAX_VALUE);
         dist[S] =0;
-        
+		int prev[] = new int[n];
+		//prev[S]=S;
         while(!pq.isEmpty()) {
             Pair p = pq.peek();
             int node = p.node;
             long weight = p.distance;
-            
             // System.out.println("node = " + node + " weigth = " + weight);
-            
-            
             pq.poll();
             int size = adj.get(node).size();
-            
             for(int i=0;i<size;i++) {
                 int neighBournode = adj.get(node).get(i).node;
                 long neighBourWeight = adj.get(node).get(i).weight;
                 if(dist[neighBournode] > (long)weight + neighBourWeight ) {
                     dist[neighBournode] = weight + neighBourWeight;
+					//prev[neighBournode]=node;
                     pq.offer(new Pair(weight + neighBourWeight,neighBournode));
                 }   
             }
-            
+			/*
+			List<Integer> path = new ArrayList<>();
+			while(prev[dest]!=dest) {
+				path.add(dest);
+				dest=path[dest];
+			}
+			path.add(S);
+			*/
         }
         return dist;
     }
