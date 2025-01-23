@@ -11,6 +11,7 @@ class Solution {
             fact[i] = (int)((1L * fact[i - 1] * i) % mod);
         }
         // Compute modular inverses using Fermat's Little Theorem
+        //modular inverse is calculated using the binary exponential
         invFact[n] = modularExponentiation(fact[n], mod - 2);
         for (int i = n - 1; i >= 0; i--) {
             invFact[i] = (int)((1L * invFact[i + 1] * (i + 1)) % mod);
