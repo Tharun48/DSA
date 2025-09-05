@@ -1,12 +1,15 @@
 class Solution {
-   /*
+    /*
+        this ncr will be terminated if the ways of placing is greater than k
+        20c10 is greater than 10^6, so the below code will be terminated even before running for 20 times for the largest K value
+    */
+    /*
         ncr->n!/(n-r)!*(r!)
         ncr=n*n-1*n-2* reduce the n upto r time / 1*2*...r
         ncr=nC(n-r)
     */
     long ncr(int n,int r,int limit){
         if(r>n-r) r=n-r;
-        // System.out.println("ncr = " + Arrays.toString(new int[]{n,r}));
         long ways=1;
         for(int i=0;i<r;i++){
             ways*=(n-i);
@@ -48,7 +51,6 @@ class Solution {
         // System.out.println("totalPer = " + totalPer);
         if(totalPer<k) return "";
         String ans = "";
-        //O(N/2)*O(26)*O(10^4/2)
         for(int i=0;i<n/2;i++){
             for(int c=0;c<26;c++){
                 if(freq[c]==0) continue;
